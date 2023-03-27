@@ -14,19 +14,21 @@ func init() {
 	if _, err := os.Stat("./store"); os.IsNotExist(err) {
 		os.Mkdir("./storage", 0777)
 	}
-	file, err := os.OpenFile("./storage/debug.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
+	file, err := os.OpenFile("./storage/logInfo.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
-		log.Fatalln("自定义log包--无法打开文件", err)
+		log.Fatalln("无法创建logInfo.log文件", err)
 	}
-	errlog = log.New(io.MultiWriter(file, os.Stderr), "error: ", log.Ldate|log.Ltime)
-	infolog = log.New(io.MultiWriter(file, os.Stderr), " info: ", log.Ldate|log.Ltime)
+	errlog = log.New(io.MultiWriter(file, os.Stderr), "Error: ", log.Ldate|log.Ltime)
+	infolog = log.New(io.MultiWriter(file, os.Stderr), "_Info: ", log.Ldate|log.Ltime)
 }
 func LogErr(err ...interface{}) {
 	writeData(errlog, err...)
 }
-func LogInfo(data ...interface{}) {
+
+func Log(data ...interface{}) {
 	writeData(infolog, data...)
 }
+
 func writeData(logger *log.Logger, data ...interface{}) {
 	projectPath, _ := os.Getwd()
 	_, file, line, ok := runtime.Caller(2)

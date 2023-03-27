@@ -21,3 +21,8 @@ tools.Encode
 tools.Decode
 
 speed
+
+
+git tag v0.0.5 打标签
+git push --tags 提交标签
+git push origin -d 0.0.2 删除远程标签
